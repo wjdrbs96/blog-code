@@ -7,6 +7,7 @@ import com.session.repository.UserRepository
 import org.modelmapper.ModelMapper
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpSession
 
 /**
@@ -16,12 +17,14 @@ import javax.servlet.http.HttpSession
 class UserService(
     private val userRepository: UserRepository,
     private val modelMapper: ModelMapper,
-    private val httpSession: HttpSession
+    private val httpSession: HttpSession,
+    private val httpServletRequest: HttpServletRequest
 ) {
 
     fun signIn(signInDTO: SignInDTO) {
         val user = userRepository.findByEmail(signInDTO.email)
         httpSession.setAttribute("userId", user.id)
+        println(httpServletRequest.session)
         println(httpSession.getAttribute("userId"))
     }
 
