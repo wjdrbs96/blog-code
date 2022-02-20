@@ -20,16 +20,51 @@ public class TestService {
     private final TestBService testBService;
 
     @Transactional
-    public void parentTransactionRequiredNew() {
+    public void parentTransactionalNEVER() {
         userRepository.save(createUser(1));
-        testBService.childTransactionalRequired();
+        testBService.childTransactionalNEVER();
         userRepository.save(createUser(3));
     }
+
+    @Transactional
+    public void parentTransactionalNESTED() {
+        userRepository.save(createUser(1));
+        testBService.childTransactionalNESTED();
+        userRepository.save(createUser(3));
+    }
+
+    @Transactional
+    public void parentTransactionRequiredNew() {
+        try {
+            userRepository.save(createUser(1));
+            testBService.childTransactionalRequiredNew();
+            userRepository.save(createUser(3));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Transactional
+    public void parentTransactionRequired() {
+        userRepository.save(createUser(1));
+        testBService.parentTransactionRequired();
+        userRepository.save(createUser(3));
+    }
+
+
+    public void parentTransactionalMANDATORY() {
+        userRepository.save(createUser(1));
+        testBService.childTransactionalMANDATORY();
+        userRepository.save(createUser(3));
+    }
+
+
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void childTransactionalRequired() {
         userRepository.save(createUser(2));
     }
+
 
     public static User createUser(int i) {
         return User.builder()

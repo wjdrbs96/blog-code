@@ -19,4 +19,28 @@ public class TestController {
         testService.parentTransactionRequiredNew();
         return "test";
     }
+
+    @GetMapping("/man")
+    public String parentTransactionalMANDATORY() {
+        testService.parentTransactionalMANDATORY();
+        return "man";
+    }
+
+    @GetMapping("/nest")
+    public String parentTransactionalNESTED() {
+        testService.parentTransactionalNESTED();
+        return "nest";
+    }
+
+    @GetMapping("/basic")
+    public String parentTransactionalREQUIRED() {
+        testService.parentTransactionRequired();
+        return "basic";
+    }
+
+    @GetMapping("/never")
+    public String parentTransactionalNEVER() {
+        testService.parentTransactionalNEVER();
+        return "never";
+    }
 }
